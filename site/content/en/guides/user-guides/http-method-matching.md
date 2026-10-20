@@ -104,3 +104,29 @@ of them. The following rule routes traffic to `infra-backend-v1` if:
     - name: infra-backend-v1
       port: 8080
 ```
+
+## Matching the QUERY method
+
+{{< details title="Extended Support Feature: HTTPRouteQueryMethodMatching" open="true" >}}
+This feature is part of extended support. For more information on support levels, refer to our [conformance guide](/docs/concepts/conformance/).
+{{< /details >}}
+
+[RFC 10008](https://datatracker.ietf.org/doc/html/rfc10008) defines `QUERY`,
+a safe and idempotent method that carries its query in the request body.
+Matching on `QUERY` lets you route reads separately from writes, even when
+both send a request body. The following rules route `QUERY` requests to
+`infra-backend-v1` and `POST` requests to `infra-backend-v2`:
+
+```yaml
+  rules:
+  - matches:
+    - method: QUERY
+    backendRefs:
+    - name: infra-backend-v1
+      port: 8080
+  - matches:
+    - method: POST
+    backendRefs:
+    - name: infra-backend-v2
+      port: 8080
+```

@@ -736,8 +736,9 @@ type HTTPQueryParamMatch struct {
 
 // HTTPMethod describes how to select a HTTP route by matching the HTTP
 // method as defined by
-// [RFC 7231](https://datatracker.ietf.org/doc/html/rfc7231#section-4) and
-// [RFC 5789](https://datatracker.ietf.org/doc/html/rfc5789#section-2).
+// [RFC 7231](https://datatracker.ietf.org/doc/html/rfc7231#section-4),
+// [RFC 5789](https://datatracker.ietf.org/doc/html/rfc5789#section-2) and
+// [RFC 10008](https://datatracker.ietf.org/doc/html/rfc10008).
 // The value is expected in upper case.
 //
 // Note that values may be added to this enum, implementations
@@ -747,10 +748,10 @@ type HTTPQueryParamMatch struct {
 // Accepted Condition for the Route to `status: False`, with a
 // Reason of `UnsupportedValue`.
 //
-// +kubebuilder:validation:Enum=GET;HEAD;POST;PUT;DELETE;CONNECT;OPTIONS;TRACE;PATCH
+// +kubebuilder:validation:Enum=GET;HEAD;POST;PUT;DELETE;CONNECT;OPTIONS;TRACE;PATCH;QUERY
 type HTTPMethod string
 
-// +kubebuilder:validation:Enum=GET;HEAD;POST;PUT;DELETE;CONNECT;OPTIONS;TRACE;PATCH;*
+// +kubebuilder:validation:Enum=GET;HEAD;POST;PUT;DELETE;CONNECT;OPTIONS;TRACE;PATCH;QUERY;*
 type HTTPMethodWithWildcard string
 
 const (
@@ -763,6 +764,7 @@ const (
 	HTTPMethodOptions HTTPMethod = "OPTIONS"
 	HTTPMethodTrace   HTTPMethod = "TRACE"
 	HTTPMethodPatch   HTTPMethod = "PATCH"
+	HTTPMethodQuery   HTTPMethod = "QUERY"
 )
 
 // HTTPRouteMatch defines the predicate used to match requests to a given
@@ -817,6 +819,11 @@ type HTTPRouteMatch struct {
 	// specified method.
 	//
 	// Support: Extended
+	//
+	// <gateway:util:excludeFromCRD>
+	// The QUERY method has its own feature:
+	//   HTTPRouteQueryMethodMatching
+	// </gateway:util:excludeFromCRD>
 	//
 	// +optional
 	Method *HTTPMethod `json:"method,omitempty"`
@@ -1483,8 +1490,8 @@ type HTTPCORSFilter struct {
 	// AllowMethods indicates which HTTP methods are supported for accessing the
 	// requested resource.
 	//
-	// Valid values are any method defined by RFC9110, along with the special
-	// value `*`, which represents all HTTP methods are allowed.
+	// Valid values are any method defined by RFC9110, `QUERY` (RFC10008), and
+	// the special value `*`, which represents all HTTP methods are allowed.
 	//
 	// Method names are case-sensitive, so these values are also case-sensitive.
 	// (See https://www.rfc-editor.org/rfc/rfc2616#section-5.1.1)
@@ -1522,7 +1529,7 @@ type HTTPCORSFilter struct {
 	// Support: Extended
 	//
 	// +listType=set
-	// +kubebuilder:validation:MaxItems=9
+	// +kubebuilder:validation:MaxItems=10
 	// +kubebuilder:validation:XValidation:message="AllowMethods cannot contain '*' alongside other methods",rule="!('*' in self && self.size() > 1)"
 	// +optional
 	AllowMethods []HTTPMethodWithWildcard `json:"allowMethods,omitempty"`

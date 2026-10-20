@@ -120,6 +120,9 @@ const (
 
 	// This option indicates support for URLRewrite filter on HTTPRoute BackendRef (extended conformance).
 	SupportHTTPRouteBackendURLRewrite FeatureName = "HTTPRouteBackendURLRewrite"
+
+	// This option indicates support for HTTPRoute method matching on QUERY (RFC 10008) (extended conformance).
+	SupportHTTPRouteQueryMethodMatching FeatureName = "HTTPRouteQueryMethodMatching"
 )
 
 var (
@@ -253,6 +256,11 @@ var (
 		Name:    SupportHTTPRouteBackendURLRewrite,
 		Channel: FeatureChannelStandard,
 	}
+	// HTTPRouteQueryMethodMatchingFeature contains metadata for the HTTPRouteQueryMethodMatching feature.
+	HTTPRouteQueryMethodMatchingFeature = Feature{
+		Name:    SupportHTTPRouteQueryMethodMatching,
+		Channel: FeatureChannelStandard,
+	}
 )
 
 // HTTPRouteExtendedFeatures includes all extended features for HTTPRoute
@@ -285,4 +293,5 @@ var HTTPRouteExtendedFeatures = sets.New(
 	HTTPRouteRetryCodesFeature,
 	HTTPRouteRetryConnectionErrorFeature,
 	HTTPRouteBackendURLRewriteFeature,
+	HTTPRouteQueryMethodMatchingFeature,
 )

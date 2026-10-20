@@ -65,6 +65,11 @@ type HTTPRouteMatchApplyConfiguration struct {
 	//
 	// Support: Extended
 	//
+	// <gateway:util:excludeFromCRD>
+	// The QUERY method has its own feature:
+	// HTTPRouteQueryMethodMatching
+	// </gateway:util:excludeFromCRD>
+	//
 	Method *apisv1.HTTPMethod `json:"method,omitempty"`
 }
 

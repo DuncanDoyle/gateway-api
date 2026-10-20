@@ -1650,6 +1650,24 @@ func TestHTTPRouteCORS(t *testing.T) {
 				},
 			},
 		},
+		{
+			name:       "Using all valid methods, including QUERY, should be accepted",
+			wantErrors: nil,
+			corsfilter: &gatewayv1.HTTPCORSFilter{
+				AllowMethods: []gatewayv1.HTTPMethodWithWildcard{
+					"GET",
+					"HEAD",
+					"POST",
+					"PUT",
+					"DELETE",
+					"CONNECT",
+					"OPTIONS",
+					"TRACE",
+					"PATCH",
+					"QUERY",
+				},
+			},
+		},
 	}
 
 	for _, tc := range tests {

@@ -103,8 +103,8 @@ type HTTPCORSFilterApplyConfiguration struct {
 	// AllowMethods indicates which HTTP methods are supported for accessing the
 	// requested resource.
 	//
-	// Valid values are any method defined by RFC9110, along with the special
-	// value `*`, which represents all HTTP methods are allowed.
+	// Valid values are any method defined by RFC9110, `QUERY` (RFC10008), and
+	// the special value `*`, which represents all HTTP methods are allowed.
 	//
 	// Method names are case-sensitive, so these values are also case-sensitive.
 	// (See https://www.rfc-editor.org/rfc/rfc2616#section-5.1.1)
